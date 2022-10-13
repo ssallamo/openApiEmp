@@ -1,0 +1,97 @@
+openapi: 3.0.0
+
+info:
+  title: Employee API
+  description: Employee Infomation CRUD Restful Open API
+  contact:
+    name: Jiseon Ha
+  version: 1.0.0
+
+servers:
+  -url: http://localhost:8080/
+  description: implementation at local PC
+
+paths:
+  /employee:
+    description: Employee Resource
+    get:
+      description: Fetch All Employees
+      operationId: getAllEmployees
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+
+    post:
+      summary: Creates a Employee
+      operationId: saveEmployee
+      requestBody:
+        description: id, name, mobile, department
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+
+
+  /employee/{empId}:
+    parameters:
+      - name: empId
+        in: path
+        require: true
+        description: this is a Employee id
+        schema:
+          type: integer
+    get:
+      operationId: getEmployeeById
+      summary: Get an employee by id
+      responses:
+        "200":
+          description: This is successfully done
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+    delete:
+      operationId: removeEmployeeById
+      summary: Delete an Employee by id
+      responses:
+        "200":
+          description: This is successfully done
+
+components:
+  schemas:
+    Employee:
+      description: Employee model
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          description: The id of Employee
+          type: integer
+          example: 1
+        name:
+          description: The name of Employee
+          type: string
+          example: Mike
+        mobile:
+          description: Mobile number of Employee
+          type: string
+          example: 02102700998
+        department:
+          description: Mobile number of Employee
+          type: string
+          example: sales
